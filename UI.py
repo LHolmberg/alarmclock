@@ -7,14 +7,14 @@ import datetime
 ######################################################
 window = tk.Tk()
 window.configure(background='#262626')
-window.geometry(700x500)
+window.geometry("700x500")
 num_run = 0
 btn_funcid = 0
 window.title("Joylarm clock")
-lbl = Label(window, text= 'wake', bg = "#424242", fg = "#f20000", font=("Times", 50))
+lbl = Label(window, text= 'wake', bg = "#262626", fg = "#FFFFFF", font=("Times", 50))
 lbl.pack(side= "top", fill = "both", expand = 1)
 wake = ''
-self.TopFrame = Frame(self.master.bg = "42f498", width = 
+
 
 #######################################################
 
@@ -109,8 +109,8 @@ textEnter.bind('<Button-1>', run)
 
 #######################################################
 
-textEnter_button = Button(window, height=3, width=20, bg="#" text="Set Alarm", command=set_alarm)
-button_alarm = Button(text = "Alarm", command=alarm)
+textEnter_button = Button(window, height=3, width=20, bg="#70ff9b", text="Set Alarm", command=set_alarm)
+button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=3, width=20)
 button_alarm.pack()
 tick()
 window.mainloop()
