@@ -2,12 +2,13 @@ import tkinter as tk
 from tkinter import *
 from functools import partial
 import time
+import winsound
 import datetime
 
 ######################################################
 window = tk.Tk()
 window.configure(background='#262626')
-window.geometry("700x500")
+window.geometry("1024x600")
 num_run = 0
 btn_funcid = 0
 window.title("Joylarm clock")
@@ -40,7 +41,8 @@ def tick():
     current_time = time.strftime("%I:%M:%S")
     lbl.config(text=current_time)
     if wake == current_time[:-3]:
-        lbl.config(bg="red")
+        print '\a'
+        
     lbl.after(200, tick)
         
 #######################################################
