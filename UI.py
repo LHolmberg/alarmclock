@@ -4,24 +4,34 @@ from functools import partial
 import time
 import winsound
 import datetime
+import pygame
+from pygame.locals import *
+
+
 
 ######################################################
 window = tk.Tk()
-window.configure(background='#262626')
+window.resizable=(0,0)
+window.configure(background='#232323')
 window.geometry("1024x600")
+lbl = Label(window, text= 'wake', bg = "#303030", fg = "#FFFFFF", font=("Helvetica", 45))
+lbl.pack(side= "top", fill = "both", expand = 1)
+frame = Frame(width=50, height=400, bg="#232323", colormap="new")
+frame.pack(side=TOP, fill=X)
 num_run = 0
 btn_funcid = 0
 window.title("Joylarm clock")
-lbl = Label(window, text= 'wake', bg = "#262626", fg = "#FFFFFF", font=("Times", 50))
-lbl.pack(side= "top", fill = "both", expand = 1)
+
 wake = ''
+'./fonts/fonten.ttf'
+
 
 
 #######################################################
 
 def alarm():
     button_alarm.pack_forget()
-    textEnter.pack()
+    textEnter.pack(side= "top")
     textEnter_button.pack(side = BOTTOM)
     textEnter.focus()
 
@@ -33,6 +43,8 @@ def set_alarm():
    textEnter_button.pack_forget()
    button_alarm.pack()
    wake = textEnter.get()
+   wak = Label(window, text= wake, fg = "#FFFFFF", bg = "#262626")
+   wak.pack()
 
 #######################################################
 
@@ -40,8 +52,17 @@ def tick():
     global wake
     current_time = time.strftime("%I:%M:%S")
     lbl.config(text=current_time)
+    
     if wake == current_time[:-3]:
-        print '\a'
+        winsound.Beep(2500,1000)
+        winsound.Beep(2500,1000)
+        winsound.Beep(2500,1000)
+        winsound.Beep(2500,1000)
+        winsound.Beep(2500,1000)
+        winsound.Beep(2500,1000)
+        winsound.Beep(2500,1000)
+        
+     
         
     lbl.after(200, tick)
         
