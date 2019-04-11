@@ -4,26 +4,32 @@ from functools import partial
 import time
 import winsound
 import datetime
-import pygame
-from pygame.locals import *
-
+from time import gmtime, strftime
+import subprocess
+import os
+import sys
+from sys import exit
 
 
 ######################################################
 window = tk.Tk()
-window.resizable=(0,0)
+window.resizable=(0, 0)
 window.configure(background='#232323')
 window.geometry("1024x600")
-lbl = Label(window, text= 'wake', bg = "#303030", fg = "#FFFFFF", font=("Helvetica", 45))
-lbl.pack(side= "top", fill = "both", expand = 1)
-frame = Frame(width=50, height=400, bg="#232323", colormap="new")
-frame.pack(side=TOP, fill=X)
+timee = Label(window,fg = "#FFF", bg = "#232323", font=("Helvetica", 20))
+
+timee.pack(side=BOTTOM, anchor=W
+           )
+lbl = Label(window, text= 'wake', bg = "#232323", fg = "#FFFFFF", font=("Helvetica", 100))
+lbl.pack(anchor=CENTER, fill = "x", expand = 1)
+#frame = Frame(width=50, height=400, bg="#232323", colormap="new")
+#frame.pack(side=TOP, fill=X)
 num_run = 0
 btn_funcid = 0
 window.title("Joylarm clock")
 
 wake = ''
-'./fonts/fonten.ttf'
+
 
 
 
@@ -43,30 +49,42 @@ def set_alarm():
    textEnter_button.pack_forget()
    button_alarm.pack()
    wake = textEnter.get()
+   
    wak = Label(window, text= wake, fg = "#FFFFFF", bg = "#262626")
    wak.pack()
+   button_alarm.config(state = DISABLED)
+   
 
 #######################################################
 
 def tick():
+  
+    
     global wake
-    current_time = time.strftime("%I:%M:%S")
+    ct = time.strftime("%a, %d %b %Y", gmtime())
+    current_time = time.strftime("%H:%M:%S", gmtime())
     lbl.config(text=current_time)
+    timee.config(text=ct)
+    #pdf ="path/to/pdf"
+    #a = r'C:\Desktop\fonts'
+
     
     if wake == current_time[:-3]:
-        winsound.Beep(2500,1000)
-        winsound.Beep(2500,1000)
-        winsound.Beep(2500,1000)
-        winsound.Beep(2500,1000)
-        winsound.Beep(2500,1000)
-        winsound.Beep(2500,1000)
-        winsound.Beep(2500,1000)
         
-     
+        os.system(r'C:\Users\Lukas\Desktop\LukASS.mp3')
+        os.system(r'C:\Users\Lukas\Desktop\fred.py')
+        os._exit(1)
+
         
-    lbl.after(200, tick)
+    lbl.after(1000, tick)
+
+
+
+    
         
 #######################################################
+
+
 
 def click(btn):
     global num_run
@@ -83,6 +101,7 @@ def click(btn):
 #######################################################
 
 def numpad():
+
     global num_run, boot
     boot = tk.Tk()
    
@@ -117,6 +136,8 @@ def close(event):
         num_run = 0
         window.unbind('<Button-1>', btn_funcid)
 
+
+
 #######################################################
 
 def run(event):
@@ -127,13 +148,15 @@ def run(event):
         btn_funcid = window.bind('<Button-1>', close)
 
 
-textEnter = Entry(window, width=10, background='white', justify=CENTER, font='-weight bold')
-textEnter.bind('<Button-1>', run)
+
+button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=3, width=20)
+
+button_alarm.bind('<Button-1>', run)
 
 #######################################################
 
 textEnter_button = Button(window, height=3, width=20, bg="#70ff9b", text="Set Alarm", command=set_alarm)
-button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=3, width=20)
+textEnter = Entry(window, width=10, background='white', justify=CENTER, font='-weight bold')
 button_alarm.pack()
 tick()
 window.mainloop()
