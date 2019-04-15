@@ -11,15 +11,12 @@ import sys
 from sys import exit
 
 
-######################################################
 window = tk.Tk()
 window.resizable=(0, 0)
 window.configure(background='#232323')
-window.geometry("1024x600")
+window.attributes("-fullscreen", True)
 timee = Label(window,fg = "#FFF", bg = "#232323", font=("Helvetica", 20))
-
-timee.pack(side=BOTTOM, anchor=W
-           )
+timee.pack(side=BOTTOM, anchor=W)       
 lbl = Label(window, text= 'wake', bg = "#232323", fg = "#FFFFFF", font=("Helvetica", 100))
 lbl.pack(anchor=CENTER, fill = "x", expand = 1)
 #frame = Frame(width=50, height=400, bg="#232323", colormap="new")
@@ -27,13 +24,9 @@ lbl.pack(anchor=CENTER, fill = "x", expand = 1)
 num_run = 0
 btn_funcid = 0
 window.title("Joylarm clock")
-
 wake = ''
-
-
-
-
-#######################################################
+lf = tk.LabelFrame(window, text="Keypad", bd=5, bg = "#262626", fg="#fff")
+lf.pack(anchor=CENTER)
 
 def alarm():
     button_alarm.pack_forget()
@@ -41,50 +34,29 @@ def alarm():
     textEnter_button.pack(side = BOTTOM)
     textEnter.focus()
 
-#######################################################
-
 def set_alarm():
    global wake
+   global wak
    textEnter.pack_forget()
    textEnter_button.pack_forget()
+   lf.pack_forget()
    button_alarm.pack()
    wake = textEnter.get()
-   
+   b.pack(anchor=S)
    wak = Label(window, text= wake, fg = "#FFFFFF", bg = "#262626")
    wak.pack()
-   button_alarm.config(state = DISABLED)
-   
-
-#######################################################
+   button_alarm.pack_forget()
 
 def tick():
-  
-    
     global wake
     ct = time.strftime("%a, %d %b %Y", gmtime())
-    current_time = time.strftime("%H:%M:%S", gmtime())
+    current_time = time.strftime(datetime.datetime.now().strftime('%H:%M:%S'))
     lbl.config(text=current_time)
     timee.config(text=ct)
-    #pdf ="path/to/pdf"
-    #a = r'C:\Desktop\fonts'
-
-    
     if wake == current_time[:-3]:
-        
-        os.system(r'C:\Users\Lukas\Desktop\LukASS.mp3')
-        os.system(r'C:\Users\Lukas\Desktop\fred.py')
+        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\snake.py')
         os._exit(1)
-
-        
-    lbl.after(1000, tick)
-
-
-
-    
-        
-#######################################################
-
-
+    lbl.after(1000, tick)    
 
 def click(btn):
     global num_run
@@ -93,32 +65,21 @@ def click(btn):
         textEnter.insert(END, text)
     if text == 'Del':
         textEnter.delete(0, END)
-    if text == 'Close':
-        boot.destroy()
-        num_run = 0
-        window.unbind('<Button-1>', btn_funcid)
-
-#######################################################
 
 def numpad():
-
     global num_run, boot
-    boot = tk.Tk()
-   
-    lf = tk.LabelFrame(boot, text=" keypad ", bd=3)
-    lf.pack(padx=15, pady=10)
     btn_list = [
         '7',  '8',  '9',
         '4',  '5',  '6',
         '1',  '2',  '3',
-        '0',':',  'Del',  'Close']
+        '0',':',  'Del',]
     r = 1
     c = 0
     n = 0
     btn = list(range(len(btn_list)))
     for label in btn_list:
         cmd = partial(click, label)
-        btn[n] = tk.Button(lf, text=label, width=10, height=5, command=cmd)
+        btn[n] = tk.Button(lf, text=label, width=10, height=5, command=cmd, bg="#1c1c1c", fg="#fff")
         btn[n].grid(row=r, column=c)
         n += 1
         c += 1
@@ -126,37 +87,35 @@ def numpad():
             c = 0
             r += 1
 
-
-#######################################################
-
-def close(event):
-    global num_run, btn_funcid
-    if num_run == 1:
-        boot.destroy()
-        num_run = 0
-        window.unbind('<Button-1>', btn_funcid)
-
-
-
-#######################################################
+def removeAlert():
+    global wake
+    global wak
+    button_alarm.pack()
+    wake = "gr"
+    b.pack_forget()
+    wak.pack_forget()
 
 def run(event):
     global num_run, btn_funcid
+    if num_run == 1:
+        lf.pack(anchor=N)
+        textEnter.pack(anchor=CENTER)
+        textEnter_button.pack(anchor=S)
+        button_alarm.pack_forget()
+        numpad()
+        btn_funcid = window.bind('<Button-1>')
     if num_run == 0:
         num_run = 1
         numpad()
-        btn_funcid = window.bind('<Button-1>', close)
-
-
-
-button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=3, width=20)
-
+        btn_funcid = window.bind('<Button-1>')
+button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=4, width=27)
 button_alarm.bind('<Button-1>', run)
 
-#######################################################
-
-textEnter_button = Button(window, height=3, width=20, bg="#70ff9b", text="Set Alarm", command=set_alarm)
-textEnter = Entry(window, width=10, background='white', justify=CENTER, font='-weight bold')
+textEnter_button = Button(window, height=4, width=27, bg="#70ff9b", text="Set Alarm", command=set_alarm)
+textEnter = Entry(window, width=15, background='white', justify=CENTER, font='-weight bold')
+b = Button(window,text="Remove alarm", width=27,height=4, command=removeAlert, bg="#70ff9b")
+b.pack_forget()
 button_alarm.pack()
 tick()
 window.mainloop()
+
