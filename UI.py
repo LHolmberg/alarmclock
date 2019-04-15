@@ -54,7 +54,7 @@ def tick():
     lbl.config(text=current_time)
     timee.config(text=ct)
     if wake == current_time[:-3]:
-        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\snake.py')
+        os.startfile(r'C:\Users\Lukas\Desktop\snake.py')
         os._exit(1)
     lbl.after(1000, tick)    
 

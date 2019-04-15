@@ -16,7 +16,7 @@ high_score = 0
 wn = turtle.Screen()
 wn.title("Snake Game by @TokyoEdTech")
 wn.bgcolor("green")
-wn.setup(width=600, height=600)
+wn.setup(width=1020, height=600)
 wn.tracer(0) # Turns off the screen updates
 
 # Snake head
@@ -98,11 +98,11 @@ while True:
     while score >= 40:
             
             
-            os.system(r'C:\Users\Lukas\Desktop\UI.py')
-            time.sleep(1)
+            os.startfile(r'C:\Users\Lukas\Desktop\UI.py')
+            
             os._exit(1)
 
-    if head.xcor()>290 or head.xcor()<-290 or head.ycor()>290 or head.ycor()<-290:
+    if head.xcor()>500 or head.xcor()<-500 or head.ycor()>290 or head.ycor()<-290:
         time.sleep(1)
         head.goto(0,0)
         head.direction = "stop"
