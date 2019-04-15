@@ -19,8 +19,6 @@ timee = Label(window,fg = "#FFF", bg = "#232323", font=("Helvetica", 20))
 timee.pack(side=BOTTOM, anchor=W)       
 lbl = Label(window, text= 'wake', bg = "#232323", fg = "#FFFFFF", font=("Helvetica", 100))
 lbl.pack(anchor=CENTER, fill = "x", expand = 1)
-#frame = Frame(width=50, height=400, bg="#232323", colormap="new")
-#frame.pack(side=TOP, fill=X)
 num_run = 0
 btn_funcid = 0
 window.title("Joylarm clock")
@@ -54,7 +52,9 @@ def tick():
     lbl.config(text=current_time)
     timee.config(text=ct)
     if wake == current_time[:-3]:
-        os.startfile(r'C:\Users\Lukas\Desktop\snake.py')
+        #os.startfile(r'C:\Users\Lukas\Desktop\snake.py')
+        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\snake.py')
+        #spela ljud
         os._exit(1)
     lbl.after(1000, tick)    
 
