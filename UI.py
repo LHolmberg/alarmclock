@@ -53,7 +53,8 @@ def tick():
     timee.config(text=ct)
     if wake == current_time[:-3]:
         #os.startfile(r'C:\Users\Lukas\Desktop\snake.py')
-        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\snake.py')
+        #os.startfile(r'C:\Users\Skrivbord\game.py')
+        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.py')
         #spela ljud
         os._exit(1)
     lbl.after(1000, tick)    
