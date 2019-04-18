@@ -55,6 +55,7 @@ def tick():
         #os.startfile(r'C:\Users\Lukas\Desktop\snake.py')
         #os.startfile(r'C:\Users\Skrivbord\game.py')
         os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.py')
+        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\tes\Paint.exe')
         #spela ljud
         os._exit(1)
     lbl.after(1000, tick)    

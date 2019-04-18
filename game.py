@@ -14,12 +14,12 @@ from PIL import ImageTk, Image
 window = tk.Tk()
 window.configure(background='#232323')
 window.geometry("1232x650")
-original = cv2.imread('C:\\Users\\Lukaz\\OneDrive\\Skrivbord\\se.png', cv2.IMREAD_COLOR)
-image_to_compare = cv2.imread('C:\\Users\\Lukaz\\OneDrive\\Skrivbord\\fir.png', cv2.IMREAD_COLOR)
+original = cv2.imread('C:\\Users\\Lukaz\\OneDrive\\Skrivbord\\screenshots\\go.png', cv2.IMREAD_COLOR)
+image_to_compare = cv2.imread('C:\\Users\\Lukaz\\OneDrive\\Skrivbord\\screenshots\\img.png', cv2.IMREAD_COLOR)
 lbl = Label(window, text="try again")
 img = Image
 lbl.pack_forget()
-img = ImageTk.PhotoImage(Image.open("se.png"))
+img = ImageTk.PhotoImage(Image.open("gogogo.png"))
 panel = Label(window, image = img)
 panel.pack(side = "bottom", fill = "both", expand = "yes")
 
@@ -64,8 +64,9 @@ def check():
     cv2.imwrite("feature_matching.jpg", result)
     cv2.imshow("Original", cv2.resize(original, None, fx=0.4, fy=0.4))
     cv2.imshow("Duplicate", cv2.resize(image_to_compare, None, fx=0.4, fy=0.4))
-    if len(good_points) / number_keypoints * 100 > 5:
+    if len(good_points) / number_keypoints * 100 > 30:
         os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\UI.py')
+            
         os._exit(1)
 
     else:
