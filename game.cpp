@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <GL/glut.h>
 #include <stdlib.h>
 #include <GLFW/glfw3.h>
@@ -9,14 +10,45 @@
 
 using namespace std;
 
-float Xposition;
-float Yposition;
-float Zposition;
-float Xrotation;
-float Yrotation;
-float Zraotaion;
-float XRotationRadius;
-float YRotationRadius;
+typedef vector<vector<vector<double>>> Vector3D;
+
+
+struct Math {
+	float x;
+	float y;
+	float z;
+	float dx;
+	float dy;
+	float dz;
+
+	//vector 3
+	Math(float _x, float _y, float _z) {
+		_x = x;
+		_y = y;
+		_z = z;
+	}
+	//vector 2
+	Math(float _x, float _y) {
+		_x = x;
+		_y = y;
+	}
+
+	//sqrt(dx * dx + dy * dy + dz * dz);                   roten ur dx^2 + dy^2 + dz^2  dx + dy + dz
+
+};
+
+double AABB(float dx, float dy, float dz) {
+	return sqrt(dx * dx + dy * dy + dz * dz);
+}
+
+float Xpos;
+float Ypos;
+float Zpos;
+float Xrot;
+float Yrot;
+float Zrot;
+float XRotRad;
+float YRotRad;
 float vel = 0.03f;
 float sens = 0.026f;
 float CubePositionsX[1];
@@ -57,68 +89,37 @@ bool cube4 = true;
 bool cube5 = true;
 bool cube6 = true;
 
-typedef vector<vector<vector<double>>> Vector3D;
-
-
-struct Math {
-	float x;
-	float y;
-	float z;
-	float dx;
-	float dy;
-	float dz;
-
-	//vector 3
-	Math(float _x, float _y, float _z) {
-		_x = x;
-		_y = y;
-		_z = z;
-	}
-	//vector 2
-	Math(float _x, float _y) {
-		_x = x;
-		_y = y;
-	}
-
-	//sqrt(dx * dx + dy * dy + dz * dz);                   roten ur dx^2 + dy^2 + dz^2  dx + dy + dz
-
-};
-
-double AABB(float dx, float dy, float dz) {
-	return sqrt(dx * dx + dy * dy + dz * dz);
-}
-
 struct Player {
 	void Forward(void) {
 
-		YRotationRadius = (Yrotation / 180 * 3.14);
-		XRotationRadius = (Xrotation / 180 * 3.14);
+		YRotRad = (Yrot / 180 * 3.14);
+		XRotRad = (Xrot / 180 * 3.14);
 
-		Xposition += float(sin(YRotationRadius)) * vel;
-		Zposition -= float(cos(YRotationRadius)) * vel;
+		Xpos += float(sin(YRotRad)) * vel;
+		Zpos -= float(cos(YRotRad)) * vel;
 	}
 
 	void Back(void) {
-		YRotationRadius = (Yrotation / 180 * 3.14);
-		XRotationRadius = (Xrotation / 180 * 3.14);
-		Xposition -= float(sin(YRotationRadius)) * vel;
-		Zposition += float(cos(YRotationRadius)) * vel;
+		YRotRad = (Yrot / 180 * 3.14);
+		XRotRad = (Xrot / 180 * 3.14);
+		Xpos -= float(sin(YRotRad)) * vel;
+		Zpos += float(cos(YRotRad)) * vel;
 	}
 
 	void Right(void) {
 
-		YRotationRadius = (Yrotation / 180 * 3.14);
+		YRotRad = (Yrot / 180 * 3.14);
 
-		Xposition += float(cos(YRotationRadius)) * vel;
-		Zposition += float(sin(YRotationRadius)) * vel;
+		Xpos += float(cos(YRotRad)) * vel;
+		Zpos += float(sin(YRotRad)) * vel;
 
 	}
 
 	void Left(void) {
 
-		YRotationRadius = (Yrotation / 180 * 3.14);
-		Xposition -= float(cos(YRotationRadius)) * vel;
-		Zposition -= float(sin(YRotationRadius)) * vel;
+		YRotRad = (Yrot / 180 * 3.14);
+		Xpos -= float(cos(YRotRad)) * vel;
+		Zpos -= float(sin(YRotRad)) * vel;
 
 	}
 
@@ -136,16 +137,16 @@ struct Player {
 		if (moveRight)
 			Right();
 
-		glRotatef(Xrotation, 1.0, 0.0, 0.0);
-		glRotatef(Yrotation, 0.0, 1.0, 0.0);
-		glTranslated(-Xposition, -Yposition, -Zposition);
+		glRotatef(Xrot, 1.0, 0.0, 0.0);
+		glRotatef(Yrot, 0.0, 1.0, 0.0);
+		glTranslated(-Xpos, -Ypos, -Zpos);
 
-		if (Xrotation <= -89) {
-			Xrotation = -89;
+		if (Xrot <= -89) {
+			Xrot = -89;
 		}
 
-		if (Xrotation >= 89) {
-			Xrotation = 89;
+		if (Xrot >= 89) {
+			Xrot = 89;
 		}
 	}
 
@@ -211,32 +212,32 @@ struct Player {
 				}
 				else { x = false; }
 				if (x == true) {
-					Yrotation += 8 * sens;
+					Yrot += 8 * sens;
 				}
 				if (axes[2] <= -0.45f) {
 					x2 = true;
 				}
 				else { x2 = false; }
 				if (x2 == true) {
-					Yrotation += -8 * sens;
+					Yrot += -8 * sens;
 				}
 				if (axes[3] >= 0.45f) {
 					x3 = true;
 				}
 				else { x3 = false; }
 				if (x3 == true) {
-					Xrotation += 8 * sens;
+					Xrot += 8 * sens;
 				}
 				if (axes[3] <= -0.45f) {
 					x4 = true;
 				}
 				else { x4 = false; }
 				if (x4 == true) {
-					Xrotation += -8 * sens;
+					Xrot += -8 * sens;
 
 				}
 				if (GLFW_PRESS == buttons[1] && abletojump == true) {
-					Yposition += 20;
+					Ypos += 20;
 					abletojump = false;
 				}
 				if (GLFW_RELEASE == buttons[1]) {
@@ -265,7 +266,7 @@ struct Objects {
 	void DrawCube2(void) {
 		glColor3f(0.1, 0.25, 0.25);
 		glPushMatrix();
-		glTranslated(25, Yposition - 4, -0);
+		glTranslated(25, Ypos - 4, -0);
 		glScaled(150, 0.5f, 150);
 		glutSolidCube(1);
 		glPopMatrix();
@@ -347,37 +348,37 @@ void exit() {
 Objects obj;
 Player pl;
 void Physics() {
-	float distance2 = AABB(Xposition - 10, Yposition - 0, Zposition - 4);
+	float distance2 = AABB(Xpos - 10, Ypos - 0, Zpos - 4);
 
 	if (distance2 <= (2.5 + 2.5) && time > 2) {
 		cout << "Colliding" << endl;
 		cube2 = false;
 	}
 
-	float distance = AABB(Xposition - 12, Yposition - 3, Zposition - (-25));
+	float distance = AABB(Xpos - 12, Ypos - 3, Zpos - (-25));
 	if (distance <= (2.5 + 2.5) && time > 2) {
 		cout << "Colliding" << endl;
 		cube1 = false;
 	}
-	float distance3 = AABB(Xposition - 23, Yposition - 0, Zposition - 8);
+	float distance3 = AABB(Xpos - 23, Ypos - 0, Zpos - 8);
 	if (distance3 <= (2.5 + 2.5)) {
 		cout << "col" << endl;
 		cube3 = false;
 	}
 
-	float distance4 = AABB(Xposition - 45, Yposition - 0, Zposition - 25);
+	float distance4 = AABB(Xpos - 45, Ypos - 0, Zpos - 25);
 	if (distance4 <= (2.5 + 3.5)) {
 		cout << "col" << endl;
 		cube4 = false;
 	}
 
-	float distance5 = AABB(Xposition - 73, Yposition - 0, Zposition - (-35));
+	float distance5 = AABB(Xpos - 73, Ypos - 0, Zpos - (-35));
 	if (distance5 <= (2.5 + 2.5)) {
 		cout << "col" << endl;
-		cube5= false;
+		cube5 = false;
 	}
 
-	float distance6 = AABB(Xposition - 90, Yposition - 0, Zposition - (-55));
+	float distance6 = AABB(Xpos - 90, Ypos - 0, Zpos - (-55));
 	if (distance6 <= (4 + 4)) {
 		cout << "col" << endl;
 		cube6 = false;
@@ -432,11 +433,11 @@ int main(int argc, char** argv) {
 	glutCreateWindow("OPENGLGAME");
 
 	glfwInit();
-	Xrotation = 0;
-	Yrotation = 765;
-	Xposition = -23;
-	Yposition = 2;
-	Zposition = 30;
+	Xrot = 0;
+	Yrot = 765;
+	Xpos = -23;
+	Ypos = 2;
+	Zpos = 30;
 	while (true) {
 		glutDisplayFunc(Render);
 		glutIdleFunc(Render);
