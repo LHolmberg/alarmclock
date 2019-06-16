@@ -10,91 +10,24 @@
 
 using namespace std;
 
-typedef vector<vector<vector<double>>> Vector3D;
-
-
-struct Math {
-	float x;
-	float y;
-	float z;
-	float dx;
-	float dy;
-	float dz;
-
-	//vector 3
-	Math(float _x, float _y, float _z) {
-		_x = x;
-		_y = y;
-		_z = z;
-	}
-	//vector 2
-	Math(float _x, float _y) {
-		_x = x;
-		_y = y;
-	}
-
-	//sqrt(dx * dx + dy * dy + dz * dz);                   roten ur dx^2 + dy^2 + dz^2  dx + dy + dz
-
-};
-
 double AABB(float dx, float dy, float dz) {
 	return sqrt(dx * dx + dy * dy + dz * dz);
 }
 
-float Xpos;
-float Ypos;
-float Zpos;
-float Xrot;
-float Yrot;
-float Zrot;
-float XRotRad;
-float YRotRad;
-float vel = 0.03f;
-float sens = 0.026f;
-float CubePositionsX[1];
-float CubePositionsZ[1];
-float CubePositionsD[1];
-float CubePositionsB[1];
-float CubePos;
+float Xpos, Ypos, Zpos, Xrot, Yrot, Zrot, XrotRad, YRotRad,
+			vel, sens, CubePositionsX[1], CubePositionsZ[1], 
+				CubePositionsD[1], CubePositionsB[1], CubePos,
+					dx, dy, dz, dx2, dz2, dy2, dx3, dz3, dy3;
 
-float dx;
-float dy;
-float dz;
-float dx2;
-float dz2;
-float dy2;
-float dx3;
-float dz3;
-float dy3;
-float time;
+bool colliding, f, b, r, l, x, x2, x3, x4, moveForward, moveBack,
+			moveLeft, moveRight, abletojump, cube1, cube2,
+				cube3, cube4, cube5, cube6;
 
-bool colliding;
-bool f = false;
-bool b = false;
-bool r = false;
-bool l = false;
-bool x = false;
-bool x2 = false;
-bool x3 = false;
-bool x4 = false;
-bool moveForward = false;
-bool moveBack = false;
-bool moveLeft = false;
-bool moveRight = false;
-bool abletojump;
-bool cube1 = true;
-bool cube2 = true;
-bool cube3 = true;
-bool cube4 = true;
-bool cube5 = true;
-bool cube6 = true;
 
 struct Player {
 	void Forward(void) {
-
 		YRotRad = (Yrot / 180 * 3.14);
 		XRotRad = (Xrot / 180 * 3.14);
-
 		Xpos += float(sin(YRotRad)) * vel;
 		Zpos -= float(cos(YRotRad)) * vel;
 	}
@@ -107,20 +40,15 @@ struct Player {
 	}
 
 	void Right(void) {
-
 		YRotRad = (Yrot / 180 * 3.14);
-
 		Xpos += float(cos(YRotRad)) * vel;
 		Zpos += float(sin(YRotRad)) * vel;
-
 	}
 
 	void Left(void) {
-
 		YRotRad = (Yrot / 180 * 3.14);
 		Xpos -= float(cos(YRotRad)) * vel;
 		Zpos -= float(sin(YRotRad)) * vel;
-
 	}
 
 	void Camera(void) {
@@ -170,7 +98,6 @@ struct Player {
 				else if (f != true) {
 					moveForward = false;
 				}
-
 				if (axes[1] >= 0.45f) {
 					r = true;
 				}
@@ -182,7 +109,6 @@ struct Player {
 				else if (r != true) {
 					moveBack = false;
 				}
-
 				if (axes[0] <= -0.45f) {
 					l = true;
 				}
@@ -234,7 +160,6 @@ struct Player {
 				else { x4 = false; }
 				if (x4 == true) {
 					Xrot += -8 * sens;
-
 				}
 				if (GLFW_PRESS == buttons[1] && abletojump == true) {
 					Ypos += 20;
@@ -249,6 +174,15 @@ struct Player {
 };
 
 struct Objects {
+	void DrawCube2(void) {
+		glColor3f(0.1, 0.25, 0.25);
+		glPushMatrix();
+		glTranslated(25, Ypos - 4, -0);
+		glScaled(150, 0.5f, 150);
+		glutSolidCube(1);
+		glPopMatrix();
+	}
+
 
 	void DrawCubes(void) {
 		if (cube1) {
@@ -263,22 +197,13 @@ struct Objects {
 		glutSolidCube(0);
 
 	}
-	void DrawCube2(void) {
-		glColor3f(0.1, 0.25, 0.25);
-		glPushMatrix();
-		glTranslated(25, Ypos - 4, -0);
-		glScaled(150, 0.5f, 150);
-		glutSolidCube(1);
-		glPopMatrix();
-	}
+	
 	void DrawCube3(void) {
 		if (cube2) {
 			glColor3d(0.67, 0.21, 0.5);
 			glPushMatrix();
 			glTranslated(10, 0, 4);
-
 			glutSolidCube(4);
-
 			glPopMatrix();
 		}
 		glutSolidCube(0);
@@ -414,13 +339,11 @@ void Render(void) {
 }
 
 void Window(int w, int h) {
-
 	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluPerspective(60, (GLfloat)w / (GLfloat)h, 1.0, 10000.0);
 	glMatrixMode(GL_MODELVIEW);
-
 }
 
 int main(int argc, char** argv) {
