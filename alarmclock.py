@@ -15,14 +15,18 @@ window = tk.Tk()
 window.resizable=(0, 0)
 window.configure(background='#232323')
 window.attributes("-fullscreen", True)
+window.title("Joylarm clock")
+
 timee = Label(window,fg = "#FFF", bg = "#232323", font=("Helvetica", 20))
-timee.pack(side=BOTTOM, anchor=W)       
+timee.pack(side=BOTTOM, anchor=W)    
+
 lbl = Label(window, text= 'wake', bg = "#232323", fg = "#FFFFFF", font=("Helvetica", 100))
 lbl.pack(anchor=CENTER, fill = "x", expand = 1)
+
 num_run = 0
 btn_funcid = 0
-window.title("Joylarm clock")
 wake = ''
+
 lf = tk.LabelFrame(window, text="Keypad", bd=5, bg = "#262626", fg="#fff")
 lf.pack(anchor=CENTER)
 
@@ -51,12 +55,8 @@ def tick():
     current_time = time.strftime(datetime.datetime.now().strftime('%H:%M:%S'))
     lbl.config(text=current_time)
     timee.config(text=ct)
-    if wake == current_time[:-3]:
-        #os.startfile(r'C:\Users\Lukas\Desktop\snake.py')
-        #os.startfile(r'C:\Users\Skrivbord\game.py')
-        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.py')
-        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\tes\Paint.exe')
-        #spela ljud
+    if wake == current_time[:-3]:     
+        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.cpp')
         os._exit(1)
     lbl.after(1000, tick)    
 
@@ -110,14 +110,18 @@ def run(event):
         num_run = 1
         numpad()
         btn_funcid = window.bind('<Button-1>')
+        
 button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=4, width=27)
 button_alarm.bind('<Button-1>', run)
 
 textEnter_button = Button(window, height=4, width=27, bg="#70ff9b", text="Set Alarm", command=set_alarm)
 textEnter = Entry(window, width=15, background='white', justify=CENTER, font='-weight bold')
+
 b = Button(window,text="Remove alarm", width=27,height=4, command=removeAlert, bg="#70ff9b")
 b.pack_forget()
-button_alarm.pack()
-tick()
-window.mainloop()
 
+button_alarm.pack()
+
+tick()
+
+window.mainloop()
