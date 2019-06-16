@@ -334,9 +334,7 @@ struct Objects {
 			glColor3f(0.04f, 0.7, 0.6);
 		}
 		glutSolidCube(0);
-
 	}
-
 };
 
 void exit() {
