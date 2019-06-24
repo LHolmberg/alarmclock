@@ -10,7 +10,6 @@ import os
 import sys
 from sys import exit
 
-
 window = tk.Tk()
 window.resizable=(0, 0)
 window.configure(background='#232323')
@@ -56,7 +55,7 @@ def tick():
     lbl.config(text=current_time)
     timee.config(text=ct)
     if wake == current_time[:-3]:     
-        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.cpp')
+        os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.c')
         os._exit(1)
     lbl.after(1000, tick)    
 
