@@ -9,7 +9,7 @@ SDL_Surface* SpriteImage = NULL;
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600 ;
 
-int score;
+unsigned int score;
 int startingSize = 50;
 int maxVel = 1.4;
 int initVel = 1;
@@ -24,7 +24,8 @@ SDL_Rect food = { 50, 450, 100, 80 };
 SDL_Rect snake = {1600 / 2, 900/2, 50,50};
 
 
-void Input(){
+void Input()
+{
 
     SDL_PumpEvents();
     Uint8* keystate = SDL_GetKeyboardState(NULL);
@@ -51,13 +52,15 @@ void Input(){
     }
 }
 
-void StartingPoint(){
+void StartingPoint()
+{
     snake.x = 1600/2;
     snake.y = 900/2;
     score = 0;
 }
 
-void Dead(){
+void Dead()
+{
     StartingPoint();
     snake.w = startingSize;
 }
@@ -86,7 +89,8 @@ int main(int argc, char* argcs[])
         timeAccumulatedMs += timeDeltaMs;
         
        
-        if(initVel < maxVel){
+        if(initVel < maxVel)
+        {
              initVel += timeDeltaMs;
         }
        
@@ -96,16 +100,19 @@ int main(int argc, char* argcs[])
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         
-        if(snake.x >= 1600 || snake.x <= 0 || snake.y >= 900 || snake.y <= 0){
+        if(snake.x >= 1600 || snake.x <= 0 || snake.y >= 900 || snake.y <= 0)
+        {
             Dead();
         }
         if (collision)
             SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
         else
             SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+        
         SDL_RenderFillRect(renderer, &snake);
 
-        if (collision){
+        if (collision)
+        {
             snake.w += 10;
             for(int i = 0; i < 4; i++){
                 x[i] = rand() % 1300;
@@ -120,22 +127,28 @@ int main(int argc, char* argcs[])
         SDL_UpdateWindowSurface(Window);
         SDL_RenderPresent(renderer);
        
-        if(direction == 1){
+        if(direction == 1)
+        {
             snake.x += initVel * timeDeltaMs;
         }
-        else if(direction == 2){
+        else if(direction == 2)
+        {
             snake.x -= initVel * timeDeltaMs;
-        } else if(direction == 3){
+        } else if(direction == 3)
+        {
             snake.y -= initVel * timeDeltaMs;
-        } else{
+        } else
+        {
             snake.y += initVel * timeDeltaMs;
         }
+        
         while (timeAccumulatedMs >= timeStepMs)
         {
             Input();
             timeAccumulatedMs -= timeStepMs;
         }
     }
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(Window);
     SDL_Quit();
