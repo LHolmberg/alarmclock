@@ -61,6 +61,7 @@ void StartingPoint()
 
 void Dead()
 {
+    printf("dead");
     StartingPoint();
     snake.w = startingSize;
 }
@@ -113,6 +114,7 @@ int main(int argc, char* argcs[])
 
         if (collision)
         {
+            printf("collided");
             snake.w += 10;
             for(int i = 0; i < 4; i++){
                 x[i] = rand() % 1300;
