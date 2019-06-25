@@ -10,19 +10,22 @@ import os
 import sys
 from sys import exit
 
-
 window = tk.Tk()
 window.resizable=(0, 0)
 window.configure(background='#232323')
 window.attributes("-fullscreen", True)
+window.title("Joylarm clock")
+
 timee = Label(window,fg = "#FFF", bg = "#232323", font=("Helvetica", 20))
-timee.pack(side=BOTTOM, anchor=W)       
+timee.pack(side=BOTTOM, anchor=W)
+
 lbl = Label(window, text= 'wake', bg = "#232323", fg = "#FFFFFF", font=("Helvetica", 100))
 lbl.pack(anchor=CENTER, fill = "x", expand = 1)
+
 num_run = 0
 btn_funcid = 0
-window.title("Joylarm clock")
 wake = ''
+
 lf = tk.LabelFrame(window, text="Keypad", bd=5, bg = "#262626", fg="#fff")
 lf.pack(anchor=CENTER)
 
@@ -52,12 +55,8 @@ def tick():
     lbl.config(text=current_time)
     timee.config(text=ct)
     if wake == current_time[:-3]:
-        
         os.startfile(r'C:\Users\Lukas\Desktop\song.wav')
         os.startfile(r'C:\Users\Lukas\Desktop\OPENGL\Debug\OPENGL.exe')
-       # os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\game.py')
-        #os.startfile(r'C:\Users\Lukaz\OneDrive\Skrivbord\tes\Paint.exe')
-        #spela ljud
         os._exit(1)
     lbl.after(1000, tick)    
 
