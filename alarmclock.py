@@ -2,23 +2,24 @@ import tkinter as tk
 from tkinter import *
 from functools import partial
 import time
-import winsound
 import datetime
 from time import gmtime, strftime
 import subprocess
 import os
-import sys
-from sys import exit
+from sys import *
 
+#SETUP WINDOW
 window = tk.Tk()
 window.resizable=(0, 0)
 window.configure(background='#232323')
 window.attributes("-fullscreen", True)
 window.title("Joylarm clock")
 
+#SETUP THE TIME LABEL, CENTERED ON THE SCREEN
 timee = Label(window,fg = "#FFF", bg = "#232323", font=("Helvetica", 20))
 timee.pack(side=BOTTOM, anchor=W)
 
+#SETUP THE LABEL THAT CONFIRMS YOUR TIME THAT YOU SET
 lbl = Label(window, text= 'wake', bg = "#232323", fg = "#FFFFFF", font=("Helvetica", 100))
 lbl.pack(anchor=CENTER, fill = "x", expand = 1)
 
@@ -26,48 +27,11 @@ num_run = 0
 btn_funcid = 0
 wake = ''
 
+#THE LABELFRAME FOR THE NUMPAD
 lf = tk.LabelFrame(window, text="Keypad", bd=5, bg = "#262626", fg="#fff")
 lf.pack(anchor=CENTER)
 
-def alarm():
-    button_alarm.pack_forget()
-    textEnter.pack(side= "top")
-    textEnter_button.pack(side = BOTTOM)
-    textEnter.focus()
-
-def set_alarm():
-   global wake
-   global wak
-   textEnter.pack_forget()
-   textEnter_button.pack_forget()
-   lf.pack_forget()
-   button_alarm.pack()
-   wake = textEnter.get()
-   b.pack(anchor=S)
-   wak = Label(window, text= wake, fg = "#FFFFFF", bg = "#262626")
-   wak.pack()
-   button_alarm.pack_forget()
-
-def tick():
-    global wake
-    ct = time.strftime("%a, %d %b %Y", gmtime())
-    current_time = time.strftime(datetime.datetime.now().strftime('%H:%M:%S'))
-    lbl.config(text=current_time)
-    timee.config(text=ct)
-    if wake == current_time[:-3]:
-        os.startfile(r'C:\Users\Lukas\Desktop\song.wav')
-        os.startfile(r'C:\Users\Lukas\Desktop\OPENGL\Debug\OPENGL.exe')
-        os._exit(1)
-    lbl.after(1000, tick)    
-
-def click(btn):
-    global num_run
-    text = "%s" % btn
-    if not text == "Del" and not text == "Close":
-        textEnter.insert(END, text)
-    if text == 'Del':
-        textEnter.delete(0, END)
-
+#FUNCTION FOR THE NUMPAD
 def numpad():
     global num_run, boot
     btn_list = [
@@ -89,14 +53,57 @@ def numpad():
             c = 0
             r += 1
 
-def removeAlert():
+#FUNCTION TO SETUP THE TEXT ENTRY BOX & BUTTON TO SET THE ALARM
+def alarm():
+    button_alarm.pack_forget()
+    textEnter.pack(side= "top")
+    textEnter_button.pack(side = BOTTOM)
+    textEnter.focus()
+
+#FUNCTION THAT SETS THE ALARM ON THE TIME THAT YOU CHOSE
+def set_alarm():
+   global wake, wak
+   textEnter.pack_forget()
+   textEnter_button.pack_forget()
+   lf.pack_forget()
+   button_alarm.pack()
+   wake = textEnter.get()
+   b.pack(anchor=S)
+   wak = Label(window, text= wake, fg = "#FFFFFF", bg = "#262626")
+   wak.pack()
+   button_alarm.pack_forget()
+
+#UPDATE
+def update():
     global wake
-    global wak
+    ct = time.strftime("%a, %d %b %Y", gmtime())
+    current_time = time.strftime(datetime.datetime.now().strftime('%H:%M:%S'))
+    lbl.config(text=current_time)
+    timee.config(text=ct)
+    if wake == current_time[:-3]:
+        os.startfile(r'C:\Users\Lukas\Desktop\song.wav')
+        os.startfile(r'C:\Users\Lukas\Desktop\OPENGL\Debug\OPENGL.exe')
+        os._exit(1)
+    lbl.after(1000, update)    
+
+#DEFINES THE CLICK OF BUTTONS ON THE NUMPAD
+def click(btn):
+    global num_run
+    text = "%s" % btn
+    if not text == "Del" and not text == "Close":
+        textEnter.insert(END, text)
+    if text == 'Del':
+        textEnter.delete(0, END)
+
+#IF YOU WANT TO REMOVE A SET TIME
+def removeAlert():
+    global wake,wak
     button_alarm.pack()
     wake = "gr"
     b.pack_forget()
     wak.pack_forget()
 
+#THE RUNNING METHOD OF THE NUMPAD
 def run(event):
     global num_run, btn_funcid
     if num_run == 1:
@@ -110,6 +117,7 @@ def run(event):
         num_run = 1
         numpad()
         btn_funcid = window.bind('<Button-1>')
+
 button_alarm = Button(text = "Alarm", command=alarm, bg="#70ff9b", height=4, width=27)
 button_alarm.bind('<Button-1>', run)
 
@@ -118,5 +126,5 @@ textEnter = Entry(window, width=15, background='white', justify=CENTER, font='-w
 b = Button(window,text="Remove alarm", width=27,height=4, command=removeAlert, bg="#70ff9b")
 b.pack_forget()
 button_alarm.pack()
-tick()
+update()
 window.mainloop()
